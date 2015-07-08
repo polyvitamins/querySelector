@@ -1,0 +1,22 @@
+{
+  "name": "querySelector",
+  "repository": "http://github.com/polyvitamins/querySelector",
+  "description": "extended querySelector",
+  "version": "0.0.1",
+  "keywords": ["querySelector"],
+  "main": [
+    "dist/querySelector.js"
+  ],
+  "dependencies": {
+    },
+  "scripts": [
+    "src/querySelector.js"
+  ],
+  "license": "MIT",
+  "remotes": [
+    "github"
+  ],
+  "tags": [
+    "amd"
+  ]
+}
