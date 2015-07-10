@@ -19,6 +19,7 @@ define(function() {
 	    container.querySelectorAll(':scope *');
 	  }
 	  catch (e) {
+
 	    // Match usage of scope
 	    var scopeRE = /^\s*:scope/gi;
 
@@ -29,6 +30,8 @@ define(function() {
 
 	      // Override the method
 	      prototype[methodName] = function(query) {
+	      	
+
 	        var nodeList,
 	            gaveId = false,
 	            gaveContainer = false;
@@ -79,10 +82,10 @@ define(function() {
 	  }
 	}());
 
-	return function(query, root) {
+	var queryFinder = function(query, root) {
+
 		var prefix;
-		(root) ? (prefix=':scope ') : (prefix=''); 
-		var root = root||document;
+		(root && (root instanceof HTMLElement)) ? (prefix=':scope ') : (prefix=''); 
 
 		switch(typeof query) {
 			case 'string':
@@ -102,9 +105,11 @@ define(function() {
 					
 					// Нативный селектор
 					try {
+
 						return root.querySelectorAll(prefix+query);
 					} catch(e) {
-						throw 'querySelectorAll not support query: '+query;
+						
+						throw 'querySelectorAll not support query: '+prefix+query;
 					}
 								
 				} else {
@@ -147,5 +152,29 @@ define(function() {
 				return [query];
 			break;
 		};
+	}
+
+	return function(query, root) {
+		
+		
+		var root = root||document,roots=[];
+
+		if (root instanceof NodeList || root instanceof Array) {
+			roots = Array.prototype.slice.apply(root);
+		} else {
+			roots = [root];
+		}
+
+		var stack = [];
+		for (var i = 0;i<roots.length;++i) {
+			var response = queryFinder(query, roots[i]);
+			if ("object"===typeof response&&"number"===typeof response.length) {
+				for (var r = 0;r<response.length;++r) {
+					stack.push(response[r]);
+				}
+			}
+		}
+
+		return stack;
 	}
 });
