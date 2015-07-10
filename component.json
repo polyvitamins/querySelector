@@ -2,7 +2,7 @@
   "name": "querySelector",
   "repository": "http://github.com/polyvitamins/querySelector",
   "description": "extended querySelector",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": ["querySelector"],
   "main": [
     "dist/querySelector.js"
